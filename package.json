@@ -9,8 +9,11 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "aos": "^2.3.4",
+    "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
+    "vue-parallaxy": "^1.1.1",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {
