@@ -148,7 +148,7 @@ export default {
   background-blend-mode: soft-light, screen;
   color: black;
   position: relative;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .feedback {

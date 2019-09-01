@@ -14,16 +14,16 @@
       <div data-aos="fade-right" class="hops">
         <h3>Hops</h3>
         <ul>
-          <li v-for="(hop, index) in beer.ingredients.hops" :key="index">{{ hop.name }}</li>
+          <li v-for="(hop, index) in removeDuplicateHop" :key="index">{{ hop }}</li>
         </ul>
       </div>
       <div data-aos="fade-left" class="malt">
         <h3>Malt</h3>
         <ul>
-          <li v-for="(malt, index) in beer.ingredients.malt" :key="index">{{ malt.name }}</li>
+          <li v-for="(malt, index) in removeDuplicateMalt" :key="index">{{ malt }}</li>
         </ul>
       </div>
-      <div data-aos="fade-up" class="yeast">
+      <div data-aos="fade-right" class="yeast">
         <h3>Yeast</h3>
         <h4>{{ beer.ingredients.yeast }}</h4>
       </div>
@@ -37,12 +37,14 @@
 
 <script>
 import axios from "axios";
+import { stringify } from "querystring";
+import { join } from "path";
 
 export default {
   name: "Beer",
   data() {
     return {
-      beer: []
+      beer: {}
     };
   },
   props: {
@@ -60,7 +62,6 @@ export default {
         const response = await axios.get(this.apiUrl);
 
         this.beer = response.data[0];
-        console.log(this.beer);
       } catch (error) {
         console.log(error);
       }
@@ -69,6 +70,12 @@ export default {
   computed: {
     apiUrl() {
       return `https://api.punkapi.com/v2/beers/${this.id}`;
+    },
+    removeDuplicateHop() {
+      return [...new Set(this.beer.ingredients.hops.map(({ name }) => name))];
+    },
+    removeDuplicateMalt() {
+      return [...new Set(this.beer.ingredients.malt.map(({ name }) => name))];
     }
   }
 };
@@ -126,6 +133,7 @@ export default {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  text-align: center;
   padding: 1.5rem;
   background: black;
   color: whitesmoke;

@@ -6,12 +6,13 @@ import 'aos/dist/aos.css';
 
 export const eventBus = new Vue();
 
+
 Vue.config.productionTip = false;
 
 new Vue({
   created() {
     AOS.init({
-      duration: 800
+      duration: 1000
     });
   },
   router,
