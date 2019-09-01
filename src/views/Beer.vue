@@ -1,11 +1,11 @@
 <template>
   <div class="beer-container">
     <div class="description">
-      <h3 data-aos="fade-right">{{ beer.description }}</h3>
+      <h3 data-aos="fade-right" data-aos-delay="500">{{ beer.description }}</h3>
     </div>
     <div class="img-name">
-      <h1 data-aos="fade-down">{{ beer.name }}</h1>
-      <div data-aos="fade-left" class="imageUrl">
+      <h1 data-aos="fade-down" data-aos-delay="500">{{ beer.name }}</h1>
+      <div data-aos="fade-left" data-aos-delay="500" class="imageUrl">
         <img :src="beer.image_url" alt />
       </div>
     </div>
@@ -23,7 +23,7 @@
           <li v-for="(malt, index) in removeDuplicateMalt" :key="index">{{ malt }}</li>
         </ul>
       </div>
-      <div data-aos="fade-right" class="yeast">
+      <div data-aos="fade-right" data-aos-offset="30" class="yeast">
         <h3>Yeast</h3>
         <h4>{{ beer.ingredients.yeast }}</h4>
       </div>
@@ -103,9 +103,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
   background-color: black;
   color: whitesmoke;
-  padding: 1.5rem;
+  padding: 2rem;
   line-height: 1.8;
 }
 
@@ -129,12 +130,12 @@ export default {
 
 .ingredients {
   grid-area: ing;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   justify-content: space-evenly;
   align-items: center;
   text-align: center;
-  padding: 1.5rem;
+  padding: 2.5rem 0.5rem;
   background: black;
   color: whitesmoke;
 }
@@ -163,11 +164,11 @@ export default {
 .brewer-tips {
   grid-area: tips;
   text-align: center;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   justify-content: space-evenly;
   align-items: center;
-  flex-direction: column;
-  padding: 1.5rem;
+  padding: 4rem 1rem;
 }
 
 @media only screen and (max-width: 800px) {
@@ -179,6 +180,12 @@ export default {
       "des"
       "tips"
       "ing";
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .imageUrl {
+    width: 30%;
   }
 }
 </style>

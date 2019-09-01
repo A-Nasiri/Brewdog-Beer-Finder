@@ -26,11 +26,6 @@ export default {
       searchVal: ""
     };
   },
-  computed: {
-    apiUrl() {
-      return `https://api.punkapi.com/v2/beers?page=${this.currentPage}&per_page=16`;
-    }
-  },
   methods: {
     sendVal() {
       eventBus.$emit("keyword", this.searchVal);
@@ -101,7 +96,7 @@ export default {
 input[type="text"] {
   width: 100%;
   border-right: none;
-  padding: 15px;
+  padding: 20px;
   height: 20px;
   border: 3px solid whitesmoke;
   background: transparent;
@@ -112,11 +107,12 @@ input[type="text"] {
 }
 
 .search-button {
-  width: 40px;
-  height: 36px;
+  width: 50px;
+  height: 46px;
   background: transparent;
   text-align: center;
   border-radius: 0 10px 10px 0;
+  border: 3px solid whitesmoke;
   cursor: pointer;
   font-size: 20px;
   outline: none;

@@ -1,13 +1,14 @@
 <template>
   <div>
-    <h3 class="feedback" v-if="searchFeedback">{{ searchFeedback }}</h3>
     <div class="pagination">
       <button :disabled="disabled" @click.prevent="prev()">
-        <i class="material-icons">arrow_back</i>
+        <i :class="{arrowFade : isFirstPage}" class="material-icons">navigate_before</i>
       </button>
+
       <span class="page-number">{{ currentPage }}</span>
+
       <button @click.prevent="next()">
-        <i class="material-icons">arrow_forward</i>
+        <i class="material-icons">navigate_next</i>
       </button>
     </div>
     <div class="products">
@@ -21,9 +22,22 @@
         <h3 class="abv">{{ product.abv }}%</h3>
         <p class="id">{{ product.id }}</p>
         <router-link class="btn" :to="`/beer/${product.id}`">
-          <i class="material-icons">zoom_in</i>
+          <button>
+            <i class="material-icons">format_align_center</i>
+          </button>
         </router-link>
       </div>
+    </div>
+    <div class="pagination">
+      <button :disabled="disabled" @click.prevent="prev()">
+        <i :class="{arrowFade : isFirstPage}" class="material-icons">navigate_before</i>
+      </button>
+
+      <span class="page-number">{{ currentPage }}</span>
+
+      <button @click.prevent="next()">
+        <i class="material-icons">navigate_next</i>
+      </button>
     </div>
   </div>
 </template>
@@ -64,6 +78,9 @@ export default {
     },
     isFirstPage() {
       return this.currentPage === 1;
+    },
+    fadeArrow() {
+      return isFirstPage ? "arrowFade" : "";
     }
   },
   methods: {
@@ -85,15 +102,12 @@ export default {
         this.products = response.data;
 
         if (response.data.length <= 0) {
-          this.searchFeedback = "Beer Not Found";
-          setTimeout(() => {
-            this.searchFeedback = null;
-          }, 2000);
-          this.currentPage = 1;
+          this.$toasted.show("Beer Not Found!", {
+            duration: 4000,
+            icon: "feedback"
+          });
           this.getBeers();
         }
-
-        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -105,10 +119,6 @@ export default {
     prev() {
       this.currentPage -= 1;
       this.getBeers();
-    },
-    getSingleBeer(beer) {
-      eventBus.$emit("beer", beer);
-      this.$router.push({ name: "Beer" });
     }
   }
 };
@@ -116,11 +126,13 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono:400,500&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
 
 .products {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 500px;
   font-family: "Roboto Mono", monospace;
   padding: 1rem;
   overflow: hidden;
@@ -151,13 +163,6 @@ export default {
   border-radius: 5px;
 }
 
-.feedback {
-  margin-top: 1rem;
-  text-align: center;
-  color: whitesmoke;
-  font-family: "Roboto Mono", monospace;
-}
-
 .id {
   display: none;
 }
@@ -176,10 +181,20 @@ export default {
   justify-content: space-around;
   align-items: center;
   margin: 1rem 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.pagination span {
+  font-size: 1.5rem;
+  color: whitesmoke;
 }
 
 .pagination i {
-  font-size: 2rem;
+  font-size: 3rem;
+}
+
+.arrowFade {
+  color: black;
 }
 
 .pagination button {
@@ -193,7 +208,7 @@ export default {
 }
 
 .page-number {
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: bold;
   color: whitesmoke;
 }
@@ -201,10 +216,19 @@ export default {
 .btn {
   text-decoration: none;
   outline: none;
+  width: 100%;
+}
+
+.btn button {
+  background: black;
+  width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  outline: none;
 }
 
 .btn i {
-  font-size: 2.5rem;
-  color: black;
+  font-size: 1.5rem;
+  color: whitesmoke;
 }
 </style>
