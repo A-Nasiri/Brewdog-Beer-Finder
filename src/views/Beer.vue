@@ -106,7 +106,7 @@ export default {
   overflow-y: auto;
   background-color: black;
   color: whitesmoke;
-  padding: 2rem;
+  padding: 2.5rem 1rem;
   line-height: 1.8;
 }
 

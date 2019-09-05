@@ -66,6 +66,9 @@ export default {
       this.getBeersForSearch();
     });
   },
+  beforeDestroy() {
+    eventBus.$off("keyword");
+  },
   computed: {
     apiUrl() {
       return `https://api.punkapi.com/v2/beers?page=${this.currentPage}&per_page=16`;
@@ -101,7 +104,7 @@ export default {
 
         this.products = response.data;
 
-        if (response.data.length <= 0) {
+        if (response.data.length == 0) {
           this.$toasted.show("Beer Not Found!", {
             duration: 4000,
             icon: "feedback"
@@ -109,6 +112,13 @@ export default {
           this.getBeers();
         }
       } catch (error) {
+        if (error) {
+          this.$toasted.show("Beer Not Found!", {
+            duration: 4000,
+            icon: "feedback"
+          });
+          this.getBeers();
+        }
         console.log(error);
       }
     },
@@ -194,7 +204,7 @@ export default {
 }
 
 .arrowFade {
-  color: black;
+  color: transparent;
 }
 
 .pagination button {

@@ -50,7 +50,8 @@ export default {
 .search {
   content: "";
   height: 450px;
-  background: url("~@/assets/520.jpg") no-repeat center/cover fixed;
+  background: url("~@/assets/520.jpg") center/cover no-repeat;
+  background-attachment: fixed;
   width: 100%;
   position: relative;
 }
@@ -127,6 +128,10 @@ input[type="text"] {
 @media only screen and (max-width: 600px) {
   .logo {
     width: 150px;
+  }
+
+  .search {
+    background-attachment: scroll;
   }
 
   .search-bar h1 {
