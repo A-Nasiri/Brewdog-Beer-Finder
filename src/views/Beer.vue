@@ -1,50 +1,54 @@
 <template>
-  <div class="beer-container">
-    <div class="description">
-      <h3 data-aos="fade-right" data-aos-delay="500">{{ beer.description }}</h3>
+  <div>
+    <div v-if="loading" class="loader">
+      <img src="@/assets/loader.svg" class="loader-icon" />
     </div>
-    <div class="img-name">
-      <h1 data-aos="fade-down" data-aos-delay="500">{{ beer.name }}</h1>
-      <div data-aos="fade-left" data-aos-delay="500" class="imageUrl">
-        <img :src="beer.image_url" alt />
+    <div v-if="!loading" class="beer-container">
+      <div class="description">
+        <h3 data-aos="fade-right" data-aos-delay="500">{{ beer.description }}</h3>
       </div>
-    </div>
-    <div class="ingredients">
-      <h1 data-aos="fade-down">Ingredients</h1>
-      <div data-aos="fade-right" class="hops">
-        <h3>Hops</h3>
-        <ul>
-          <li v-for="(hop, index) in removeDuplicateHop" :key="index">{{ hop }}</li>
-        </ul>
+      <div class="img-name">
+        <h1 data-aos="fade-down" data-aos-delay="500">{{ beer.name }}</h1>
+        <div data-aos="fade-left" data-aos-delay="500" class="imageUrl">
+          <img :src="beer.image_url" alt />
+        </div>
       </div>
-      <div data-aos="fade-left" class="malt">
-        <h3>Malt</h3>
-        <ul>
-          <li v-for="(malt, index) in removeDuplicateMalt" :key="index">{{ malt }}</li>
-        </ul>
+      <div class="ingredients">
+        <h1 data-aos="fade-down">Ingredients</h1>
+        <div data-aos="fade-right" class="hops">
+          <h3>Hops</h3>
+          <ul>
+            <li v-for="(hop, index) in removeDuplicateHop" :key="index">{{ hop }}</li>
+          </ul>
+        </div>
+        <div data-aos="fade-left" class="malt">
+          <h3>Malt</h3>
+          <ul>
+            <li v-for="(malt, index) in removeDuplicateMalt" :key="index">{{ malt }}</li>
+          </ul>
+        </div>
+        <div data-aos="fade-right" data-aos-offset="30" class="yeast">
+          <h3>Yeast</h3>
+          <h4>{{ beer.ingredients.yeast }}</h4>
+        </div>
       </div>
-      <div data-aos="fade-right" data-aos-offset="30" class="yeast">
-        <h3>Yeast</h3>
-        <h4>{{ beer.ingredients.yeast }}</h4>
+      <div class="brewer-tips">
+        <h2 data-aos="fade-up">Brewer's Tips</h2>
+        <h3 data-aos="fade-down">{{ beer.brewers_tips }}</h3>
       </div>
-    </div>
-    <div class="brewer-tips">
-      <h2 data-aos="fade-up">Brewer's Tips</h2>
-      <h3 data-aos="fade-right">{{ beer.brewers_tips }}</h3>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { stringify } from "querystring";
-import { join } from "path";
 
 export default {
   name: "Beer",
   data() {
     return {
-      beer: {}
+      beer: {},
+      loading: true
     };
   },
   props: {
@@ -62,6 +66,7 @@ export default {
         const response = await axios.get(this.apiUrl);
 
         this.beer = response.data[0];
+        this.loading = false;
       } catch (error) {
         console.log(error);
       }
@@ -72,10 +77,14 @@ export default {
       return `https://api.punkapi.com/v2/beers/${this.id}`;
     },
     removeDuplicateHop() {
-      return [...new Set(this.beer.ingredients.hops.map(({ name }) => name))];
+      if (!this.loading) {
+        return [...new Set(this.beer.ingredients.hops.map(({ name }) => name))];
+      }
     },
     removeDuplicateMalt() {
-      return [...new Set(this.beer.ingredients.malt.map(({ name }) => name))];
+      if (!this.loading) {
+        return [...new Set(this.beer.ingredients.malt.map(({ name }) => name))];
+      }
     }
   }
 };
@@ -95,6 +104,16 @@ export default {
   grid-template-areas:
     "des img"
     "tips ing";
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+.loader-icon {
+  width: 100%;
+  height: auto;
 }
 
 .description {
