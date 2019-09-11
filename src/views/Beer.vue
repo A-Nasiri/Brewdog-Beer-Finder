@@ -8,7 +8,7 @@
         <h3 data-aos="fade-right" data-aos-delay="500">{{ beer.description }}</h3>
       </div>
       <div class="img-name">
-        <h1 data-aos="fade-down" data-aos-delay="500">{{ beer.name }}</h1>
+        <h1 class="beer-name" data-aos="fade-down" data-aos-delay="500">{{ beer.name }}</h1>
         <div data-aos="fade-left" data-aos-delay="500" class="imageUrl">
           <img :src="beer.image_url" alt />
         </div>
@@ -29,12 +29,12 @@
         </div>
         <div data-aos="fade-right" data-aos-offset="30" class="yeast">
           <h3>Yeast</h3>
-          <h4>{{ beer.ingredients.yeast }}</h4>
+          <h4 class="yeast-value">{{ beer.ingredients.yeast }}</h4>
         </div>
       </div>
       <div class="brewer-tips">
         <h2 data-aos="fade-up">Brewer's Tips</h2>
-        <h3 data-aos="fade-down">{{ beer.brewers_tips }}</h3>
+        <h3 class="bt-value" data-aos="fade-down">{{ beer.brewers_tips }}</h3>
       </div>
     </div>
   </div>
